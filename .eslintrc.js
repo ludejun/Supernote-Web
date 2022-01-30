@@ -1,11 +1,15 @@
 module.exports = {
   env: {
     browser: true,
-    node: true,
+    node: true
   },
   parser: 'babel-eslint',
-  extends: 'airbnb',
+  extends: [
+    'airbnb',
+    'plugin:@typescript-eslint/recommended',
+  ],
   plugins: ['react'],
+  ignorePatterns: ['**/RichTextEditor/*'],
   rules: {
     'react/jsx-filename-extension': 0,
     'react/destructuring-assignment': 0,
@@ -13,7 +17,7 @@ module.exports = {
     // 组件的属性类型也不检测
     'react/prop-types': 0,
     'import/no-extraneous-dependencies': 0,
-    'import/prefer-default-export': 1,
+    'import/prefer-default-export': 0,
     'consistent-return': 1,
     // 对象包裹不检测
     'object-curly-spacing': 0,
@@ -21,7 +25,10 @@ module.exports = {
     'eol-last': 0,
     // "comma-dangle": ["error", "never"],
     // 允许class中的内部方法使用_ ，其他情况默认不允许
-    'no-underscore-dangle': ['error', { allowAfterThis: true, enforceInMethodNames: false }],
+    'no-underscore-dangle': [
+      'error',
+      { allowAfterThis: true, enforceInMethodNames: false }
+    ],
     'max-len': ['error', 120],
     'global-require': 0,
     'no-plusplus': 0,
@@ -31,6 +38,25 @@ module.exports = {
     'operator-linebreak': 0,
     'arrow-parens': ['error', 'as-needed'],
     'space-before-function-paren': ['error', 'never'],
-    "object-curly-newline": 0,
+    'object-curly-newline': 0,
+    // tsx file: Missing file extension "ts"
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never'
+      }
+    ]
   },
+  settings: {
+    'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx']
+      }
+    }
+  }
 };

@@ -11,11 +11,11 @@ import * as serviceWorker from './serviceWorker';
 import monitor from './utils/monitor';
 
 Storage.setNamespace(configs.name);
-monitor.init({
-  appName: configs.name,
-  headerName: 'loyalvalleylog',
-  apiUrl: 'http://localhost:3000/log.gif',
-});
+// monitor.init({
+//   appName: configs.name,
+//   headerName: 'loyalvalleylog',
+//   apiUrl: 'http://localhost:3000/log.gif',
+// });
 
 ReactDOM.render(
   <Provider store={store}>

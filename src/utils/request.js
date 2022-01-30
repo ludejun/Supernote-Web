@@ -1,7 +1,5 @@
 import { fetch } from 'whatwg-fetch';
 import configs from '../configs';
-// eslint-disable-next-line
-process.env.NODE_ENV === 'dev' && require('../../mock/index');
 
 function parseJSON(response) {
   return response.json();

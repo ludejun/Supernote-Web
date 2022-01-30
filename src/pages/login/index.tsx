@@ -1,57 +1,78 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { Form, Button, Input, Checkbox } from 'antd';
+
 import { Dispatch, RootState } from '../../store';
 import Storage from '../../utils/Storage';
 import './index.less';
+import { setUserInfo, UserInfo } from '../../utils/userInfo';
 
-interface ILoginProps {
-  isAuth?: boolean;
-  isLogining?: boolean;
-  userInfo?: any;
-  fetchLogin?: (payload: object) => void;
+export interface Login {
+  loginLoading?: boolean;
+  userInfo?: UserInfo;
 }
+const Login: React.FC<Login> = props => {
+  const { loginLoading, login } = props;
+  const [form] = Form.useForm();
+  const history = useHistory();
 
-class Login extends React.Component<ILoginProps, {}> {
-  constructor(props: ILoginProps) {
-    super(props);
-  }
+  const onFinish = (values: { mobile: string; password: string; remember: boolean }) => {
+    login({
+      params: values,
+      apiName: 'sign'
+    }).then((userInfo: UserInfo) => {
+      if (userInfo.token) {
+        setUserInfo(userInfo);
+        history.push('/main/notelist');
+      }
+    });
+  };
 
-  onLoginClick() {
-    const { fetchLogin } = this.props;
+  return (
+    <div className="login">
+      <Form
+        form={form}
+        name="login"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        // onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+        <Form.Item
+          label="手机号"
+          name="mobile"
+          rules={[{ required: true, message: '请输入手机号' }]}
+        >
+          <Input />
+        </Form.Item>
 
-    fetchLogin &&
-      fetchLogin({
-        data: {
-          loginName: '',
-          loginPwd: '***',
-        },
-        cb: (userInfo: object) => {
-          Storage.set('userinfo', userInfo);
-        },
-      });
-  }
+        <Form.Item label="密码" name="password" rules={[{ required: true, message: '请输入密码' }]}>
+          <Input.Password />
+        </Form.Item>
 
-  render() {
-    const { isAuth, isLogining, userInfo, fetchLogin } = this.props;
-    return (
-      <div className="login">
-        <button onClick={() => this.onLoginClick()}>登陆</button>
-        {isLogining && <p>登陆中...</p>}
-        <p>
-          登陆状态：{isAuth ? <span>已登陆，欢迎{userInfo.username}</span> : <span>您未登陆</span>}
-        </p>
-      </div>
-    );
-  }
-}
+        <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
+          <Checkbox>记住我</Checkbox>
+        </Form.Item>
+
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Button type="primary" htmlType="submit" loading={loginLoading}>
+            登录
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
+  );
+};
 
 const mapStateToProps = ({ user }: RootState) => ({
-  isAuth: user.isAuth,
-  isLogining: user.isLogining,
-  userInfo: user.userInfo,
+  loginLoading: user.loginLoading,
+  userInfo: user.userInfo
 });
-const mapDispatchToProps = ({ user: { fetchLogin } }: Dispatch) => ({
-  fetchLogin,
+const mapDispatchToProps = ({ user: { login } }: Dispatch) => ({
+  login
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

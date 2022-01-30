@@ -22,18 +22,23 @@ const loaders = [
       loader: 'babel-loader',
       options: {
         presets: ['@babel/preset-env', '@babel/preset-react'],
+        plugins: ['@babel/plugin-proposal-class-properties']
         // plugins: [['import', { libraryName: 'antd', style: 'css' }]], // `style: true` 会加载 less 文件
-      },
-    },
+      }
+    }
   },
   {
     test: /\.tsx?$/,
     exclude: /node_modules/,
     loader: 'babel-loader',
     options: {
-      presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
+      presets: [
+        '@babel/preset-env',
+        '@babel/preset-react',
+        '@babel/preset-typescript'
+      ]
       // plugins: [['import', { libraryName: 'antd', style: 'css' }]],
-    },
+    }
   }, // 先解析ts和tsx，rule规则从下往上
   // {
   //   test: /\.json$/,
@@ -43,21 +48,21 @@ const loaders = [
   {
     test: /\.css$/,
     // exclude: /node_modules/, // Quill编辑器需要引用nodemodules中的css
-    use: ['style-loader', 'css-loader', 'postcss-loader'],
+    use: ['style-loader', 'css-loader', 'postcss-loader']
   },
   {
     test: /\.less$/,
     exclude: /node_modules/,
-    use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'],
+    use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader']
   },
   {
     test: /\.(png|svg|jpg|gif)$/,
-    use: ['file-loader'],
+    use: ['file-loader']
   },
   {
     test: /\.(woff|woff2|eot|ttf|otf)$/,
-    use: ['file-loader'],
-  },
+    use: ['file-loader']
+  }
 ];
 
 const config = {

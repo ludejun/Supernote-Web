@@ -9,8 +9,8 @@ export const count = {
       return {
         ...state,
         loading: payload.loading,
-        ...(payload.status === 'success' ? { number: state.number + payload.num } : null),
+        ...(payload.status === 'success' ? { number: state.number + payload.num } : null)
       };
-    },
-  },
+    }
+  }
 };

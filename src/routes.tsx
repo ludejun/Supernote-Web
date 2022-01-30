@@ -4,6 +4,8 @@ import App from './pages/App';
 import LoginPage from './pages/login/index';
 import Layout from './pages/layout';
 import store from './store';
+import Register from './pages/login/register';
+import NoteList from './pages/noteList';
 
 export default function() {
   return (
@@ -12,14 +14,15 @@ export default function() {
         <Route exact path="/">
           <App />
         </Route>
-        <Route exact path="/login">
-          <LoginPage />
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/register" component={Register} />
+        {/* <PrivateRoute> */}
+        <Route path="/main">
+          <Layout>
+            <Route exact path="/main/notelist" component={NoteList} />
+          </Layout>
         </Route>
-        <PrivateRoute>
-          <Route path="/main">
-            <Layout />
-          </Route>
-        </PrivateRoute>
+        {/* </PrivateRoute> */}
       </Switch>
     </Router>
   );
@@ -38,7 +41,7 @@ function PrivateRoute({ children, ...rest }) {
           <Redirect
             to={{
               pathname: '/login',
-              state: { from: location },
+              state: { from: location }
             }}
           />
         )

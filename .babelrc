@@ -1,14 +1,9 @@
 {
   "presets": ["@babel/preset-env", "@babel/react", "@babel/preset-typescript"],
   "plugins": [
-    [
-      "@babel/plugin-proposal-decorators",
-      {
-        "legacy": true
-      }
-    ],
-    "@babel/plugin-proposal-class-properties",
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties", { "loose": true }],
     "react-hot-loader/babel",
-    "@babel/transform-runtime"
+    ["@babel/plugin-transform-runtime", { "corejs": 3 }]
   ]
 }

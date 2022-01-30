@@ -1,14 +1,11 @@
-const configs = require('./index');
+import { getUserInfo } from '../utils/userInfo';
+import { apiConfig } from './apiUrl';
+import configs from './index';
 
 declare var process: {
   env: {
     NODE_ENV: string;
   };
-};
-
-// API对应url配置
-export const apiConfig: { [key: string]: string } = {
-  login: '/login', // 登陆接口
 };
 
 // 真实环境请求的url
@@ -24,31 +21,49 @@ export function apiURL(type: string) {
 }
 
 // 基本的Get请求options封装
-export function ajaxGetOptions() {}
+export function ajaxGetOptions(header: Record<string, string> = {}) {
+  const { token = '' } = getUserInfo() || {};
+  return {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token ? `Bearer ${token}` : undefined,
+      'supernote-client': `supernote-web; source=pc; version=${configs.version}`,
+      ...header
+    }
+  };
+}
 
 // 基本的Post请求options封装
-export function ajaxPostOptions(data: any, header = {}): object {
+export function ajaxPostOptions(
+  data: Record<string, unknown>,
+  header: Record<string, string> = {}
+): object {
+  const { token = '' } = getUserInfo() || {};
   return {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...header,
+      Authorization: token ? `Bearer ${token}` : undefined,
+      'supernote-client': `supernote-web; source=pc; version=${configs.version}`,
+      ...header
     },
     credentials: 'include',
-    body: JSON.stringify(data),
+    body: JSON.stringify(data)
   };
 }
 
 // form表单请求Post的options封装
-export function ajaxFormPostOptions(data: { [key: string]: any }, header = {}): object {
-  const formData = new FormData();
-  Object.keys(data).forEach((key: string) => formData.append(key, JSON.stringify(data[key])));
+export function ajaxFormPostOptions(formData, header = {}): object {
+  const { token = '' } = getUserInfo() || {};
   return {
     method: 'POST',
     headers: {
       ...header,
+      Authorization: token ? `Bearer ${token}` : undefined,
+      'supernote-client': `supernote-web; source=pc; version=${configs.version}`
     },
     credentials: 'include',
-    body: formData,
+    body: formData
   };
 }

@@ -1,0 +1,37 @@
+.main-layout {
+  .sider {
+    overflow: auto;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    color: #fff;
+    padding: 20px 0;
+
+    .logo {
+      text-align: center;
+      cursor: pointer;
+    }
+    .add-note {
+      text-align: center;
+      cursor: pointer;
+    }
+    .first-note-tree {
+      .ant-menu {
+        line-height: 1.5;
+      }
+    }
+  }
+  .note-layout {
+    margin-left: 200px;
+    .note-header {
+      padding: 0;
+    }
+    .note-content {
+      min-height: calc(100vh - 134px);
+
+      .ql-container {
+        min-height: 400px;
+      }
+    }
+  }
+}
