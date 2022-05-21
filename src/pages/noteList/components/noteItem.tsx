@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export interface INoteItem {
   title?: string; // 标题
@@ -10,6 +10,10 @@ export interface INoteItem {
 
 export const NoteItem = (props: INoteItem) => {
   const { title, onClick, onRightClick, active, show = true } = props;
+  useEffect(() => {
+    console.log(onRightClick);
+  }, []);
+
   return (
     <div
       className={`note-item ${active ? 'note-item-active' : ''} ${!show ? 'note-item-hide' : ''}`}

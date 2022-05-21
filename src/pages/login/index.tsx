@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Form, Button, Input, Checkbox } from 'antd';
 
-import { Dispatch, RootState } from '../../store';
-import Storage from '../../utils/Storage';
+import { DispatchPro, RootState } from '@/store';
+import { setUserInfo, UserInfo } from '@/utils/userInfo';
 import './index.less';
-import { setUserInfo, UserInfo } from '../../utils/userInfo';
 
 export interface Login {
   loginLoading?: boolean;
   userInfo?: UserInfo;
+  login: (payload: { params: Record<string, unknown>; apiName: string }) => Promise<UserInfo>;
 }
 const Login: React.FC<Login> = props => {
   const { loginLoading, login } = props;
@@ -71,7 +71,7 @@ const mapStateToProps = ({ user }: RootState) => ({
   loginLoading: user.loginLoading,
   userInfo: user.userInfo
 });
-const mapDispatchToProps = ({ user: { login } }: Dispatch) => ({
+const mapDispatchToProps = ({ user: { login } }: DispatchPro): any => ({
   login
 });
 

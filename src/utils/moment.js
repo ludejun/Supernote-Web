@@ -1,4 +1,4 @@
-import { num2String } from './utils';
+import { num2String } from './index.ts';
 
 /**
  * moment的部分方法简易实现，替换moment包（过大）
@@ -48,7 +48,7 @@ export default class Moment {
       default:
         throw new Error('Moment Error: add函数时间单位不支持');
     }
-    gap = gap.toFixed(0);
+    gap = parseInt(gap.toFixed(0), 0);
     if (formatter !== 'u') {
       return this.format(formatter, this.base + gap);
     }

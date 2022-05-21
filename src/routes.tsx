@@ -1,13 +1,13 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import App from './pages/App';
 import LoginPage from './pages/login/index';
 import Layout from './pages/layout';
-import store from './store';
+// import store from './store';
 import Register from './pages/login/register';
 import NoteList from './pages/noteList';
 
-export default function() {
+export const Routes = () => {
   return (
     <Router>
       <Switch>
@@ -26,26 +26,26 @@ export default function() {
       </Switch>
     </Router>
   );
-}
+};
 
-function PrivateRoute({ children, ...rest }) {
-  const { isAuth } = store.getState().user;
+// function PrivateRoute({ children, ...rest }) {
+//   const { isAuth } = store.getState().user;
 
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        isAuth ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: location }
-            }}
-          />
-        )
-      }
-    />
-  );
-}
+//   return (
+//     <Route
+//       {...rest}
+//       render={({ location }) =>
+//         isAuth ? (
+//           children
+//         ) : (
+//           <Redirect
+//             to={{
+//               pathname: '/login',
+//               state: { from: location }
+//             }}
+//           />
+//         )
+//       }
+//     />
+//   );
+// }

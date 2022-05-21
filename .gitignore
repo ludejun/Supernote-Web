@@ -40,3 +40,6 @@ lib-cov
 
 # IDE
 .idea
+
+# 打包文件
+*.zip

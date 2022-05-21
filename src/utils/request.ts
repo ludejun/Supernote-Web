@@ -1,29 +1,42 @@
-import { fetch } from 'whatwg-fetch';
+import { message } from 'antd';
+import { fetch as whatwgFetch } from 'whatwg-fetch';
 import configs from '../configs';
 
-function parseJSON(response) {
+type Fetch = typeof window.fetch;
+
+const fetch = window.fetch || (whatwgFetch as Fetch);
+
+function parseJSON(response: Response) {
   return response.json();
 }
 
 // 处理网络Code
 function checkStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
+  const { status } = response;
+  if (status === 401) {
+    message.error(
+      '登录态失效，请重新登录',
+      1.5,
+      () => (window.location.href = window.location.origin + '/login')
+    );
+  } else {
     return response;
   }
-
-  const error = new Error(response.statusText);
-  error.response = response;
-  throw error;
 }
 
 // 处理业务Code
 function checkoutCode(response) {
-  if (String(response[configs.successCode.key]) === configs.successCode.value) {
-    return response.data;
+  const { error, message: errMsg, data, status } = response || {};
+  if (status === 'success') {
+    return data;
+  } else {
+    message.error(`${errMsg}：${error}`);
+    const resError = new Error(response.statusText) as Error & {
+      response: Response;
+    };
+    resError.response = response;
+    throw resError;
   }
-  // 其他特殊业务Code处理，如登录态过期、后端报错
-
-  return response;
 }
 
 function catchError(error) {

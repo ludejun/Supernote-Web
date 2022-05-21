@@ -1,14 +1,14 @@
-import '@babel/polyfill';
+// import '@babel/polyfill';
+import 'core-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import './index.less';
-import Routes from './routes';
+import { Routes } from './routes';
 import Storage from './utils/Storage';
 import configs from './configs';
 import * as serviceWorker from './serviceWorker';
-import monitor from './utils/monitor';
 
 Storage.setNamespace(configs.name);
 // monitor.init({

@@ -1,10 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import Count from './components/Count';
-import { Dispatch, RootState } from '../store';
-import monitor from '../utils/monitor';
-import logo from './logo.svg';
+import { DispatchPro, RootState } from '../store';
 import './App.less';
 import 'antd/dist/antd.css';
 
@@ -15,7 +11,7 @@ interface IAppProps {
 }
 
 // @monitor.track({ type: 'PV', id: '1111' })
-class App extends React.Component<IAppProps, {}> {
+class App extends React.Component<IAppProps> {
   constructor(props: IAppProps) {
     super(props);
   }
@@ -36,7 +32,7 @@ class App extends React.Component<IAppProps, {}> {
   };
 
   render() {
-    const { increment } = this.props;
+    // const { increment } = this.props;
     return (
       <div className="App">
         {/* <header className="App-header">
@@ -68,7 +64,7 @@ class App extends React.Component<IAppProps, {}> {
 const mapStateToProps = ({ count }: RootState) => ({
   number: count.number
 });
-const mapDispatchToProps = ({ count: { increment } }: Dispatch) => ({
+const mapDispatchToProps = ({ count: { increment } }: DispatchPro): any => ({
   increment
 });
 

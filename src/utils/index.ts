@@ -4,7 +4,7 @@ import Moment from './moment';
 import monitor from './monitor';
 import request from './request';
 import Storage from './Storage';
-import throttle from './throttle';
+import { debance, throttle} from './throttle';
 
 export {
   num2String,
@@ -17,5 +17,6 @@ export {
   monitor,
   request,
   Storage,
-  throttle
+  throttle,
+  debance,
 };

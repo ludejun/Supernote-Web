@@ -34,7 +34,6 @@ baseStorage.prototype.remove = function(key: any) {
 };
 
 baseStorage.prototype.retrieve = function(key: any, expired: any, success: any, fail: any) {
-  const self = this;
   const data = this.get(key);
   const saveOpts = {
     key,
@@ -45,7 +44,7 @@ baseStorage.prototype.retrieve = function(key: any, expired: any, success: any, 
   } else {
     fail((res: any) => {
       if (res) {
-        self.set(key, res, expired);
+        this.set(key, res, expired);
       }
     }, saveOpts);
   }

@@ -1,5 +1,8 @@
+import { createModel } from '@rematch/core';
+import { RootModel } from '.';
 import { UserInfo } from '../utils/userInfo';
-export const user = {
+
+export const user = createModel<RootModel>()({
   state: {
     isAuth: false,
     codeLoading: false,
@@ -11,7 +14,7 @@ export const user = {
   reducers: {
     // 发送验证码
     verificationCode(
-      state: Record<string, unknown>,
+      state,
       payload: {
         loading: boolean;
         status: string;
@@ -28,7 +31,7 @@ export const user = {
     },
     // 注册
     signup(
-      state: Record<string, unknown>,
+      state,
       payload: {
         loading: boolean;
         status: string;
@@ -50,7 +53,7 @@ export const user = {
     },
     // 登录
     login(
-      state: Record<string, unknown>,
+      state,
       payload: {
         loading: boolean;
         status: string;
@@ -70,4 +73,4 @@ export const user = {
       };
     }
   }
-};
+});

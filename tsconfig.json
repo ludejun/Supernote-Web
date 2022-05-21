@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "build/dist",
+    "experimentalDecorators": true,
     "module": "commonjs",
     "target": "es5",
     "lib": ["es6", "dom"],
@@ -14,7 +14,8 @@
       "@/*": ["./src/*"]
     },
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["src", "node_modules/@types"]
   },
   "exclude": [
     "node_modules",

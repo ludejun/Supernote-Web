@@ -1,7 +1,8 @@
-import { addParamsToUrl } from '../utils';
+import { ApiOptions } from '@/configs/api';
+
 export const isPromise = (promise: unknown) => promise instanceof Promise;
 
-interface Options {
+interface WrapperOptions {
   fetch: typeof fetch;
   fetchOptionsProc: (...args: unknown[]) => Record<string, unknown>;
   urlProc: (url: string) => string;
@@ -14,19 +15,18 @@ interface Error {
   stack?: string;
 }
 
-export const wrapperRequest = ({ fetch, fetchOptionsProc, urlProc, errorCallback }: Options) => (
-  next: (action: unknown) => unknown
-) => (action: {
+export const wrapperRequest = ({
+  fetch,
+  fetchOptionsProc,
+  urlProc,
+  errorCallback
+}: WrapperOptions) => (next: (action: unknown) => unknown) => (action: {
   type: string;
   payload: {
     apiUrl?: string; // API请求的真实URL，当有此项忽略apiName，默认没有
     params?: unknown; // 一般是Post请求的body
     apiName?: string; // urlProc函数的参数，一般通过此key在mapping表中找真实的URL
-    apiOptions?: {
-      method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEADER';
-      headers?: Record<string, string>;
-      body?: string;
-    }; //
+    apiOptions?: ApiOptions; //
   };
 }) => {
   if (!fetch) {
@@ -48,7 +48,7 @@ export const wrapperRequest = ({ fetch, fetchOptionsProc, urlProc, errorCallback
   //     url = addParamsToUrl(url, param, params[param]);
   //   })
   // }
-  let options = apiOptions || {};
+  let options = (apiOptions || {}) as ApiOptions;
   if (fetchOptionsProc && payload) {
     options = {
       ...fetchOptionsProc(params, options.headers, options.method),
@@ -99,7 +99,7 @@ export const wrapperRequest = ({ fetch, fetchOptionsProc, urlProc, errorCallback
           }
         });
         errorCallback && errorCallback();
-        Promise.reject(error);
+        return Promise.reject(error);
       });
   }
   return next(action);
